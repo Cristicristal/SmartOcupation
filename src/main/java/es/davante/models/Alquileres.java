@@ -19,25 +19,26 @@ public class Alquileres {
     @DatabaseField(columnName = "estado_cobro")
     private String estadoCobro;
 
-    @DatabaseField(columnName = "id_cliente")
-    private String idCliente;
+    @DatabaseField(columnName = "id_cliente", foreign = true, foreignAutoRefresh = true)
+    private Clientes cliente;
 
-    @DatabaseField(columnName = "ref_vivienda")
-    private String refVivienda;
+    @DatabaseField(columnName = "ref_vivienda", foreign = true, foreignAutoRefresh = true)
+    private Vivienda vivienda;
 
     @DatabaseField(columnName = "datos_facturacion")
     private String datosFacturacion;
 
     public Alquileres() {
+        // Constructor vacío requerido por ORMLite
     }
 
-    public Alquileres(String numExpediente, Date fechaEntrada, Integer tiempoEstimado, String estadoCobro, String idCliente, String refVivienda, String datosFacturacion) {
+    public Alquileres(String numExpediente, Date fechaEntrada, Integer tiempoEstimado, String estadoCobro, Clientes cliente, Vivienda vivienda, String datosFacturacion) {
         this.numExpediente = numExpediente;
         this.fechaEntrada = fechaEntrada;
         this.tiempoEstimado = tiempoEstimado;
         this.estadoCobro = estadoCobro;
-        this.idCliente = idCliente;
-        this.refVivienda = refVivienda;
+        this.cliente = cliente;
+        this.vivienda = vivienda;
         this.datosFacturacion = datosFacturacion;
     }
 
@@ -73,20 +74,20 @@ public class Alquileres {
         this.estadoCobro = estadoCobro;
     }
 
-    public String getIdCliente() {
-        return idCliente;
+    public Clientes getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Clientes cliente) {
+        this.cliente = cliente;
     }
 
-    public String getRefVivienda() {
-        return refVivienda;
+    public Vivienda getVivienda() {
+        return vivienda;
     }
 
-    public void setRefVivienda(String refVivienda) {
-        this.refVivienda = refVivienda;
+    public void setVivienda(Vivienda vivienda) {
+        this.vivienda = vivienda;
     }
 
     public String getDatosFacturacion() {
@@ -104,8 +105,8 @@ public class Alquileres {
                 ", fechaEntrada=" + fechaEntrada +
                 ", tiempoEstimado=" + tiempoEstimado +
                 ", estadoCobro='" + estadoCobro + '\'' +
-                ", idCliente='" + idCliente + '\'' +
-                ", refVivienda='" + refVivienda + '\'' +
+                ", cliente=" + cliente +
+                ", vivienda=" + vivienda +
                 ", datosFacturacion='" + datosFacturacion + '\'' +
                 '}';
     }

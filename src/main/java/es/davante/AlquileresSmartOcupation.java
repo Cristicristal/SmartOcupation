@@ -1,10 +1,14 @@
 package es.davante;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.toedter.calendar.JDateChooser;
 import es.davante.models.Alquileres;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +24,7 @@ public class AlquileresSmartOcupation extends JFrame {
     private JScrollPane scrollPane;
 
     private List<Alquileres> alquileres;
+    private Dao<Alquileres, String> alquileresDao;
 
     String[] alquilereColumnNames = {
             "Num. Exp.",
@@ -36,8 +41,15 @@ public class AlquileresSmartOcupation extends JFrame {
             "Facturación"
     };
 
-    public AlquileresSmartOcupation(List<Alquileres> alquileresList) {
-        this.alquileres = alquileresList;
+    public AlquileresSmartOcupation(Dao<Alquileres, String> dao) {
+        this.alquileresDao = dao;
+
+        try {
+            this.alquileres = alquileresDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         inicializarTabla();
 
         generarInforme.addActionListener(e -> {
@@ -46,22 +58,27 @@ public class AlquileresSmartOcupation extends JFrame {
 
         consultar.addActionListener(e -> {
             if (jdcFecha.getDate() != null && jdcFecha2.getDate() != null) {
-                Date miFecha = jdcFecha.getDate();
-                long fecha = miFecha.getTime();
-                java.sql.Date fecha_sql = new java.sql.Date(fecha);
+                Date fechaInicio = jdcFecha.getDate();
+                Date fechaFin = jdcFecha2.getDate();
 
-                Date miFecha2 = jdcFecha2.getDate();
-                long fecha2 = miFecha2.getTime();
-                java.sql.Date fecha_sql2 = new java.sql.Date(fecha2);
+                try {
+                    QueryBuilder<Alquileres, String> qb = alquileresDao.queryBuilder();
+                    qb.where().ge("fecha_entrada", fechaInicio)
+                            .and()
+                            .le("fecha_entrada", fechaFin);
+                    
+                    this.alquileres = qb.query();
+                    inicializarTabla(); // Refrescar la tabla con los nuevos datos
+                    
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error al filtrar los datos: " + ex.getMessage());
+                }
 
             } else {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione ambas fechas.");
             }
         });
-    }
-
-    public AlquileresSmartOcupation() {
-        // Constructor vacío para inicialización sin datos o pruebas
     }
 
     private void inicializarTabla() {

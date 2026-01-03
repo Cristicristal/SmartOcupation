@@ -12,6 +12,12 @@ import java.util.List;
 
 public class DatabaseInitializer {
 
+    private final DatabaseConnection dbConnection;
+
+    public DatabaseInitializer(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
     public void initializeDatabase() {
         List<String> sqlFiles = Arrays.asList(
                 "data/000_query_insert.sql",
@@ -21,7 +27,6 @@ public class DatabaseInitializer {
                 "data/004_alquileres_insert.sql"
         );
 
-        DatabaseConnection dbConnection = new DatabaseConnection();
         Connection connection = dbConnection.getConnection();
 
         if (connection == null) {

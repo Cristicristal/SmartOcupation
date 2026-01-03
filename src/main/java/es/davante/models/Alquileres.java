@@ -2,6 +2,7 @@ package es.davante.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @DatabaseTable(tableName = "Alquileres")
@@ -54,6 +55,14 @@ public class Alquileres {
         return fechaEntrada;
     }
 
+    public String getFechaEntradaFormatted() {
+        if (fechaEntrada != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return sdf.format(fechaEntrada);
+        }
+        return "";
+    }
+
     public void setFechaEntrada(Date fechaEntrada) {
         this.fechaEntrada = fechaEntrada;
     }
@@ -102,7 +111,7 @@ public class Alquileres {
     public String toString() {
         return "Alquileres{" +
                 "numExpediente='" + numExpediente + '\'' +
-                ", fechaEntrada=" + fechaEntrada +
+                ", fechaEntrada=" + getFechaEntradaFormatted() +
                 ", tiempoEstimado=" + tiempoEstimado +
                 ", estadoCobro='" + estadoCobro + '\'' +
                 ", cliente=" + cliente +

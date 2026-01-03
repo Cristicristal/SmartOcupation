@@ -71,7 +71,7 @@ public class AlquileresSmartOcupation extends JFrame {
             for (Alquileres a : alquileres) {
                 Object[] rowData = {
                         a.getNumExpediente(),
-                        a.getFechaEntrada(),
+                        a.getFechaEntradaFormatted(),
                         a.getTiempoEstimado(),
                         a.getEstadoCobro(),
                         (a.getCliente() != null) ? a.getCliente().getNombre() : "N/A",

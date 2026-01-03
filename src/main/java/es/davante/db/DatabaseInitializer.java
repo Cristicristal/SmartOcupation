@@ -7,39 +7,63 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 
 public class DatabaseInitializer {
 
     public void initializeDatabase() {
-        Path path = Paths.get("data/000_query_insert.sql");
+        List<String> sqlFiles = Arrays.asList(
+                "data/000_query_insert.sql",
+                "data/001_clientes_insert.sql",
+                "data/002_vivienda_insert.sql",
+                "data/003_facturas_insert.sql",
+                "data/004_alquileres_insert.sql"
+        );
 
-        if (!Files.exists(path)) {
-            System.err.println("El archivo SQL no existe: " + path.toAbsolutePath());
+        DatabaseConnection dbConnection = new DatabaseConnection();
+        Connection connection = dbConnection.getConnection();
+
+        if (connection == null) {
+            System.err.println("No se pudo establecer conexión para inicializar la base de datos.");
             return;
         }
 
-        try {
-            String sql = Files.readString(path);
-            // Separar sentencias por punto y coma
-            String[] statements = sql.split(";");
+        for (String filePath : sqlFiles) {
+            Path path = Paths.get(filePath);
 
-            DatabaseConnection dbConnection = new DatabaseConnection();
-            Connection connection = dbConnection.getConnection();
+            if (!Files.exists(path)) {
+                System.err.println("El archivo SQL no existe: " + path.toAbsolutePath());
+                continue;
+            }
 
-            if (connection != null) {
+            try {
+                String sql = Files.readString(path);
+                // Separar sentencias por punto y coma
+                String[] statements = sql.split(";");
+
                 try (Statement statement = connection.createStatement()) {
                     for (String stmt : statements) {
                         if (!stmt.trim().isEmpty()) {
-                            statement.execute(stmt.trim());
+                            try {
+                                statement.execute(stmt.trim());
+                            } catch (SQLException e) {
+                                // Ignorar errores de clave duplicada o tabla ya existente
+                                if (e.getErrorCode() == 1062 || e.getErrorCode() == 1050) {
+                                    System.out.println("Advertencia al ejecutar sentencia (posible duplicado o ya existente): " + e.getMessage());
+                                } else {
+                                    System.err.println("Error ejecutando sentencia SQL: " + stmt);
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     }
-                    System.out.println("Base de datos inicializada con éxito.");
+                    System.out.println("Archivo procesado con éxito: " + filePath);
                 }
-            } else {
-                System.err.println("No se pudo establecer conexión para inicializar la base de datos.");
+            } catch (IOException | SQLException e) {
+                System.err.println("Error procesando archivo: " + filePath);
+                e.printStackTrace();
             }
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
         }
     }
 }

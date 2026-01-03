@@ -1,9 +1,12 @@
 package es.davante;
 
 import com.toedter.calendar.JDateChooser;
+import es.davante.models.Alquileres;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.Date;
+import java.util.List;
 
 public class AlquileresSmartOcupation extends JFrame {
     JPanel panel;
@@ -16,7 +19,27 @@ public class AlquileresSmartOcupation extends JFrame {
     private JTextField textField1;
     private JScrollPane scrollPane;
 
-    public AlquileresSmartOcupation() {
+    private List<Alquileres> alquileres;
+
+    String[] alquilereColumnNames = {
+            "Num. Exp.",
+            "Fecha Entrada",
+            "Tiempo Est.",
+            "Estado Cobro",
+            "Cliente",
+            "Vivienda (Ref)",
+            "Ubicación",
+            "Metros",
+            "Habitaciones",
+            "Baños",
+            "Precio Mensual",
+            "Facturación"
+    };
+
+    public AlquileresSmartOcupation(List<Alquileres> alquileresList) {
+        this.alquileres = alquileresList;
+        inicializarTabla();
+
         generarInforme.addActionListener(e -> {
             // TODO: Implementar lógica de generación de informe
         });
@@ -37,6 +60,39 @@ public class AlquileresSmartOcupation extends JFrame {
         });
     }
 
+    public AlquileresSmartOcupation() {
+        // Constructor vacío para inicialización sin datos o pruebas
+    }
+
+    private void inicializarTabla() {
+        DefaultTableModel dtm = new DefaultTableModel(alquilereColumnNames, 0);
+
+        if (alquileres != null) {
+            for (Alquileres a : alquileres) {
+                Object[] rowData = {
+                        a.getNumExpediente(),
+                        a.getFechaEntrada(),
+                        a.getTiempoEstimado(),
+                        a.getEstadoCobro(),
+                        (a.getCliente() != null) ? a.getCliente().getNombre() : "N/A",
+                        (a.getVivienda() != null) ? a.getVivienda().getCodReferencia() : "N/A",
+                        (a.getVivienda() != null) ? a.getVivienda().getUbicacion() : "N/A",
+                        (a.getVivienda() != null) ? a.getVivienda().getMetros() : 0,
+                        (a.getVivienda() != null) ? a.getVivienda().getNumHabitaciones() : 0,
+                        (a.getVivienda() != null) ? a.getVivienda().getNumBanos() : 0,
+                        (a.getVivienda() != null) ? a.getVivienda().getPrecioMensual() : 0.0,
+                        a.getDatosFacturacion()
+                };
+                dtm.addRow(rowData);
+            }
+        }
+
+        if (tablaAlquileres != null) {
+            tablaAlquileres.setModel(dtm);
+        }
+
+    }
+
     private void createUIComponents() {
         jdcFecha = new JDateChooser();
         jdcFecha.setDateFormatString("dd/MM/yyyy");
@@ -44,6 +100,9 @@ public class AlquileresSmartOcupation extends JFrame {
         jdcFecha2 = new JDateChooser();
         jdcFecha2.setDateFormatString("dd/MM/yyyy");
 
-        tablaAlquileres = new JTable();
+        DefaultTableModel dtm = new DefaultTableModel(alquilereColumnNames, 0);
+
+        tablaAlquileres = new JTable(dtm);
+        tablaAlquileres.setVisible(true);
     }
 }

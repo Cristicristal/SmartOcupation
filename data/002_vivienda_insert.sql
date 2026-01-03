@@ -1,6 +1,6 @@
 USE smartocupation;
 
-insert into viviendas (cod_referencia, ubicacion, metros, num_habitaciones, num_banos, precio_mensual)
+insert into Viviendas (cod_referencia, ubicacion, metros, num_habitaciones, num_banos, precio_mensual)
 values
 ('001A', 'Chamberí', 120, 3, 2, 1600),
 ('002B', 'Santiago Bernabeu', 80, 2, 1,1400),

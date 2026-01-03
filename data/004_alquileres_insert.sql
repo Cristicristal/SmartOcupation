@@ -1,6 +1,6 @@
 USE smartocupation;
 
-insert into alquileres (num_expediente, fecha_entrada, tiempo_estimado, estado_cobro, id_cliente, ref_vivienda,datos_facturacion)
+insert into Alquileres (num_expediente, fecha_entrada, tiempo_estimado, estado_cobro, id_cliente, ref_vivienda,datos_facturacion)
 values
 ('001X', '2022-06-26', 24, 'pagado', '01', '001A', '001'),
 ('002X', '2023-01-15', 12, 'pagado', '02', '002B', '002'),

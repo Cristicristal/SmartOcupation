@@ -1,6 +1,6 @@
 USE smartocupation;
 
-insert into clientes(id_cliente, nombre, datos_personales)
+insert into Clientes(id_cliente, nombre, datos_personales)
 values
 ('01', 'Pedro', 'López Fernández'),
 ('02', 'Christian', 'Rivas Martín'),

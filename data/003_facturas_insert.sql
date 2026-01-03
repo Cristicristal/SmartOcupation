@@ -1,6 +1,6 @@
 USE smartocupation;
 
-insert into facturas(id_factura, nombre_emisor, direccion_emisor, nif_emisor, total)
+insert into Facturas(id_factura, nombre_emisor, direccion_emisor, nif_emisor, total)
 values
 ('001', 'SmartOcupation S.L.', 'Calle Mayor 12, Madrid', 'B12345678', 3200.00),
 ('002', 'SmartOcupation S.L.', 'Calle Mayor 12, Madrid', 'B12345678', 1400.00),

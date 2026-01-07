@@ -49,6 +49,11 @@ public class AlquileresSmartOcupation extends JFrame {
         //Estilo para los botones principales
         consultar.putClientProperty("JButton.buttonType", "accent");
         generarInforme.putClientProperty("JButton.buttonType", "roundRect");
+        
+        // Aplicar propiedad a la tabla si ya está inicializada
+        if (tablaAlquileres != null) {
+             tablaAlquileres.putClientProperty("Table.alternateRowColor", true);
+        }
     }
 
     String[] alquilereColumnNames = {
@@ -68,7 +73,7 @@ public class AlquileresSmartOcupation extends JFrame {
 
     public AlquileresSmartOcupation(Dao<Alquileres, String> dao) {
         this.alquileresDao = dao;
-        aplicarEstilos();
+
         try {
             this.alquileres = alquileresDao.queryForAll();
         } catch (SQLException e) {
@@ -76,6 +81,8 @@ public class AlquileresSmartOcupation extends JFrame {
         }
 
         inicializarTabla();
+
+        aplicarEstilos();
 
         generarInforme.addActionListener(e -> {
             if (alquileres == null || alquileres.isEmpty()) {
@@ -247,6 +254,9 @@ public class AlquileresSmartOcupation extends JFrame {
     }
 
     private void createUIComponents() {
+        // Inicializar componentes marcados como "Custom Create" en el diseñador
+        titulo = new JLabel("Smart Ocupation");
+        
         jdcFecha = new JDateChooser();
         jdcFecha.setDateFormatString("dd/MM/yyyy");
 
@@ -256,12 +266,9 @@ public class AlquileresSmartOcupation extends JFrame {
         DefaultTableModel dtm = new DefaultTableModel(alquilereColumnNames, 0);
 
         tablaAlquileres = new JTable(dtm);
-        tablaAlquileres.setVisible(true);
         // Ajustes visuales para mejorar la usabilidad
         tablaAlquileres.setRowHeight(30);
         tablaAlquileres.setShowVerticalLines(false);
         tablaAlquileres.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // Alternar colores de fila
-        tablaAlquileres.putClientProperty("Table.alternateRowColor", true);
     }
 }

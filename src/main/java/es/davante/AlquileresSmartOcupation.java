@@ -44,10 +44,10 @@ public class AlquileresSmartOcupation extends JFrame {
 
 
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        titulo.setForeground(new Color(45, 52, 54)); // Un gris oscuro elegante
+        titulo.setForeground(new Color(45, 52, 54));
 
         //Estilo para los botones principales
-        consultar.putClientProperty("JButton.buttonType", "accent"); // Color destacado
+        consultar.putClientProperty("JButton.buttonType", "accent");
         generarInforme.putClientProperty("JButton.buttonType", "roundRect");
     }
 
@@ -131,7 +131,7 @@ public class AlquileresSmartOcupation extends JFrame {
                     contentStream.showText("Estado Cobro");
                     contentStream.endText();
 
-                    // Dibujar una línea decorativa debajo de la cabecera
+                    //línea decorativa debajo de la cabecera
                     contentStream.setLineWidth(1f);
                     contentStream.moveTo(50, yPosition - 5);
                     contentStream.lineTo(550, yPosition - 5);
@@ -142,7 +142,7 @@ public class AlquileresSmartOcupation extends JFrame {
                     // 4. Recorrer y alinear datos
                     contentStream.setFont(PDType1Font.HELVETICA, 10);
                     for (Alquileres a : alquileres) {
-                        if (yPosition < 50) break; // Control de fin de página simple
+                        if (yPosition < 50) break;
 
                         // Datos Expediente
                         contentStream.beginText();
@@ -150,7 +150,7 @@ public class AlquileresSmartOcupation extends JFrame {
                         contentStream.showText(a.getNumExpediente());
                         contentStream.endText();
 
-                        // Datos Cliente (con control de nulos)
+                        // Datos Cliente
                         contentStream.beginText();
                         contentStream.newLineAtOffset(colCliente, yPosition);
                         String nombreCliente = (a.getCliente() != null) ? a.getCliente().getNombre() : "N/A";

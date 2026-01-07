@@ -16,26 +16,21 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        // Instanciar la conexión a la base de datos una sola vez
+
         DatabaseConnection dbConnection = new DatabaseConnection();
 
         // Inicializar base de datos pasando la conexión existente
         DatabaseInitializer dbInitializer = new DatabaseInitializer(dbConnection);
         dbInitializer.initializeDatabase();
 
-        // Consulta ORMLite usando la misma instancia de DatabaseConnection
+
         ConnectionSource connectionSource = null;
-       /** try {
-            com.formdev.flatlaf.FlatLightLaf.setup(); // O FlatDarkLaf para modo oscuro
-        } catch( Exception ex ) {
-            System.err.println( "Error al iniciar LookAndFeel" );
-        }**/
+
         try {
             connectionSource = dbConnection.getConnectionSource();
             
             Dao<Alquileres, String> alquileresDao = DaoManager.createDao(connectionSource, Alquileres.class);
 
-            // Pasar la lista de alquileres y el DAO a la ventana principal
             AlquileresSmartOcupation f = new AlquileresSmartOcupation(alquileresDao);
             f.setContentPane(f.panel);
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,8 +40,6 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         } 
-        // Nota: No cerramos connectionSource aquí porque la aplicación Swing sigue ejecutándose
-        // y podría necesitar realizar más consultas (como el filtrado).
-        // Idealmente, se cerraría al cerrar la aplicación.
+
     }
 }

@@ -16,7 +16,7 @@ public class Clientes {
     private String datosPersonales;
 
     public Clientes() {
-        // Constructor vacío requerido por ORMLite
+
     }
 
     public Clientes(String idCliente, String nombre, String datosPersonales) {

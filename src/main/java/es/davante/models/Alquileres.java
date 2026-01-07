@@ -30,7 +30,7 @@ public class Alquileres {
     private String datosFacturacion;
 
     public Alquileres() {
-        // Constructor vacío requerido por ORMLite
+
     }
 
     public Alquileres(String numExpediente, Date fechaEntrada, Integer tiempoEstimado, String estadoCobro, Clientes cliente, Vivienda vivienda, String datosFacturacion) {

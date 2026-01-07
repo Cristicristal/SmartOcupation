@@ -25,7 +25,7 @@ public class Vivienda {
     private Double precioMensual;
 
     public Vivienda() {
-        // Constructor vacío requerido por ORMLite
+
     }
 
     public Vivienda(String codReferencia, String ubicacion, Integer metros, Integer numHabitaciones, Integer numBanos, Double precioMensual) {

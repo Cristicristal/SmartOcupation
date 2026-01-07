@@ -25,7 +25,11 @@ public class Main {
 
         // Consulta ORMLite usando la misma instancia de DatabaseConnection
         ConnectionSource connectionSource = null;
-        
+       /** try {
+            com.formdev.flatlaf.FlatLightLaf.setup(); // O FlatDarkLaf para modo oscuro
+        } catch( Exception ex ) {
+            System.err.println( "Error al iniciar LookAndFeel" );
+        }**/
         try {
             connectionSource = dbConnection.getConnectionSource();
             
